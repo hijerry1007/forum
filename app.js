@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const port = process.env.PORT || 3000
 const db = require('./models') //引入資料庫
 const handlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
@@ -26,7 +27,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log('app is running!')
 })
 
