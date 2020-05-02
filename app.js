@@ -8,6 +8,7 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const passport = require('./config/passport')
 const methodOverride = require('method-override')
+const Handlebars = require('handlebars')
 
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
@@ -26,6 +27,14 @@ app.use((req, res, next) => {
   res.locals.error_messages = req.flash('error_messages')
   next()
 })
+
+Handlebars.registerHelper('if_admin', function (isAdmin, input, options) {
+  if (isAdmin === input) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+})
+
 
 app.listen(port, () => {
   console.log('app is running!')

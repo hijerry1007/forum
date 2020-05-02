@@ -1,5 +1,6 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = '17049fd437d751f'
@@ -18,6 +19,17 @@ const adminController = {
     return Restaurant.findByPk(req.params.id, { raw: true }).then(restaurant => {
       return res.render('admin/restaurant', { restaurant: restaurant })
     })
+  },
+
+  //get 使用者清單
+  getUserList: (req, res) => {
+    return User.findAll({ raw: true }).then(users => {
+      return res.render('admin/users', { users: users })
+    })
+  },
+  //修改使用者清單
+  editUserList: (req, res) => {
+
   },
 
   //get 表單 新增
