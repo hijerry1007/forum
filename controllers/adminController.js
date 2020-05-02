@@ -1,8 +1,14 @@
+const db = require('../models')
+const Restaurant = db.Restaurant
+
+
 const adminController = {
 
   // 瀏覽所有
   getRestaurants: (req, res) => {
-    return res.render('admin/restaurants')
+    return Restaurant.findAll({ raw: true }).then(restaurants => {
+      return res.render('admin/restaurants', { restaurants: restaurants })
+    })
   },
 
   //瀏覽一筆
