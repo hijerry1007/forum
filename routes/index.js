@@ -2,6 +2,9 @@ const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
 const userController = require('../controllers/userController')
 
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
+
 
 module.exports = (app, passport) => {
 
@@ -34,13 +37,13 @@ module.exports = (app, passport) => {
   //admin create page
   app.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
   //admin create action
-  app.post('/admin/restaurants', authenticatedAdmin, adminController.postRestaurant)
+  app.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
   //admin get one restaurant
   app.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant)
   //admin edit page
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
   //admin edit action
-  app.put('/admin/restaurants/:id', authenticatedAdmin, adminController.putRestaurant)
+  app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
   //admin delete action
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
 
