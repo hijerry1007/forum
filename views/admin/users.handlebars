@@ -22,16 +22,25 @@
       <th scope="row">{{this.id}}</th>
       <td>{{this.email}}</td>
       <td>
-        {{#if_admin this.isAdmin '1'}}
+
+        {{#if_admin this.isAdmin 1}}
         admin
-        {{else}}
+        {{/if_admin}}
+        {{#if_admin this.isAdmin 0}}
         user
         {{/if_admin}}
       </td>
       <td>
-        <form action="/admin/restaurants/{{this.id}}?_method=PUT" method="POST" enctype="multipart/form-data"
+        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" enctype="multipart/form-data"
           style="display: inline;">
-          <button type="submit" class="btn btn-link">set as user or set as admin</button>
+          <button type="submit" class="btn btn-link">
+            {{#if_admin this.isAdmin 1}}
+            set as user
+            {{/if_admin}}
+            {{#if_admin this.isAdmin 0}}
+            set as admin
+            {{/if_admin}}
+          </button>
         </form>
       </td>
     </tr>

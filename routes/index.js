@@ -30,6 +30,8 @@ module.exports = (app, passport) => {
 
   //admin to get users
   app.get('/admin/users', authenticatedAdmin, adminController.getUserList)
+  //admin to edit users
+  app.put('/admin/users/:id', authenticatedAdmin, adminController.editUserList)
 
   //admin to /admin/restaurants route
   app.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/restaurants'))

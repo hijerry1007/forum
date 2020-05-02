@@ -23,13 +23,38 @@ const adminController = {
 
   //get 使用者清單
   getUserList: (req, res) => {
-    return User.findAll({ raw: true }).then(users => {
+    return User.findAll({ raw: true, nest: true }).then(users => {
       return res.render('admin/users', { users: users })
     })
   },
   //修改使用者清單
   editUserList: (req, res) => {
 
+    return User.findByPk(req.params.id).then(user => {
+      if (user.isAdmin) {
+        user.update({
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          isAdmin: false,
+        })
+          .then((user) => {
+            console.log(user.isAdmin)
+            res.redirect('/admin/users')
+          })
+      } else {
+        user.update({
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          isAdmin: true,
+        })
+          .then((user) => {
+            console.log(user.isAdmin)
+            res.redirect('/admin/users')
+          })
+      }
+    })
   },
 
   //get 表單 新增
