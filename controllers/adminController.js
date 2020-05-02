@@ -31,6 +31,7 @@ const adminController = {
   editUserList: (req, res) => {
 
     return User.findByPk(req.params.id).then(user => {
+
       if (user.isAdmin) {
         user.update({
           name: user.name,
@@ -39,8 +40,9 @@ const adminController = {
           isAdmin: false,
         })
           .then((user) => {
-            console.log(user.isAdmin)
-            res.redirect('/admin/users')
+
+            req.flash('success_messages', 'user was successfully updated')
+            return res.redirect('/admin/users')
           })
       } else {
         user.update({
@@ -50,11 +52,12 @@ const adminController = {
           isAdmin: true,
         })
           .then((user) => {
-            console.log(user.isAdmin)
-            res.redirect('/admin/users')
+            req.flash('success_messages', 'user was successfully updated')
+            return res.redirect('/admin/users')
           })
       }
     })
+
   },
 
   //get 表單 新增
