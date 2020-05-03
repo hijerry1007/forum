@@ -21,12 +21,15 @@
     <tr>
       <th scope="row">{{this.id}}</th>
       <td>{{this.email}}</td>
-      {{#if_admin this.isAdmin 1}}
-      <td>admin</td>
-      {{/if_admin}}
-      {{#if_admin this.isAdmin 0}}
-      <td>user</td>
-      {{/if_admin}}
+      <td>
+        {{#if_admin this.isAdmin 1}}
+        admin
+        {{/if_admin}}
+        {{#if_admin this.isAdmin 0}}
+        user
+        {{/if_admin}}
+      </td>
+
       <td>
         <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" enctype="multipart/form-data"
           style="display: inline;">
