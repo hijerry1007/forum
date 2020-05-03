@@ -32,7 +32,9 @@ Handlebars.registerHelper('if_admin', function (isAdmin, input, options) {
   if (isAdmin === input) {
     return options.fn(this);
   }
-  return options.inverse(this);
+  else {
+    return options.inverse(this);
+  }
 })
 
 

@@ -31,8 +31,7 @@
       </td>
 
       <td>
-        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" enctype="multipart/form-data"
-          style="display: inline;">
+        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" enctype="multipart/form-data" style="">
           <button type="submit" class="btn btn-link">
             {{#if_admin this.isAdmin 1}}
             set as user
