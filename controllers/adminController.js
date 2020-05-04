@@ -32,30 +32,26 @@ const adminController = {
 
     return User.findByPk(req.params.id).then(user => {
 
-      if (user.isAdmin) {
-        user.update({
-          name: user.name,
-          email: user.email,
-          password: user.password,
-          isAdmin: false,
+      user.update({
+        isAdmin: !user.isAdmin
+      })
+        .then((user) => {
+          if (req.user.id === user.id) {
+            if (!user.isAdmin) {
+              req.flash('success_messages', "your adminitration will be no longer existing!")
+              return res.redirect('/signin')
+            }
+            else {
+              req.flash('success_messages', 'user was successfully updated')
+              return res.redirect('/admin/users')
+            }
+          } else {
+            console.log(req.user)
+            req.flash('success_messages', 'user was successfully updated')
+            return res.redirect('/admin/users')
+          }
         })
-          .then((user) => {
 
-            req.flash('success_messages', 'user was successfully updated')
-            return res.redirect('/admin/users')
-          })
-      } else {
-        user.update({
-          name: user.name,
-          email: user.email,
-          password: user.password,
-          isAdmin: true,
-        })
-          .then((user) => {
-            req.flash('success_messages', 'user was successfully updated')
-            return res.redirect('/admin/users')
-          })
-      }
     })
 
   },
