@@ -10,7 +10,9 @@ const passport = require('./config/passport')
 const methodOverride = require('method-override')
 const Handlebars = require('handlebars')
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
+app.engine('handlebars', handlebars({
+  defaultLayout: 'main', helpers: require('./config/handlebars-helpers')
+}))
 app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -28,14 +30,6 @@ app.use((req, res, next) => {
   next()
 })
 
-Handlebars.registerHelper('if_admin', function (isAdmin, input, options) {
-  if (isAdmin === input) {
-    return options.fn(this);
-  }
-  else {
-    return options.inverse(this);
-  }
-})
 
 
 app.listen(port, () => {
