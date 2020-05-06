@@ -55,6 +55,8 @@ module.exports = (app, passport) => {
 
   //admin to get categories
   app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
+  //admin to post categories
+  app.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
 
   //get signup page
   app.get('/signup', userController.signUpPage)
