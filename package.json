@@ -29,5 +29,8 @@
     "pg": "^8.0.3",
     "sequelize": "^5.21.7",
     "sequelize-cli": "^5.5.1"
+  },
+  "devDependencies": {
+    "babel-register": "^6.26.0"
   }
 }
