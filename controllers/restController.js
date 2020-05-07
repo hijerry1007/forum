@@ -2,9 +2,8 @@ const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
 
-
-
 let restController = {
+
   getRestaurants: (req, res) => {
     Restaurant.findAll({ include: Category }).then(restaurants => {
       const data = restaurants.map(r => ({
@@ -16,6 +15,16 @@ let restController = {
 
       return res.render('restaurants', {
         restaurants: data
+      })
+    })
+  },
+
+  getRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id, {
+      include: Category
+    }).then(restaurant => {
+      return res.render('restaurant', {
+        restaurant: restaurant.toJSON()
       })
     })
   }
