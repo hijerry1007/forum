@@ -69,6 +69,9 @@ module.exports = (app, passport) => {
   //admin to delete categories
   app.delete('/admin/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
 
+  //admin to delete comments
+  app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)
+
   //get signup page
   app.get('/signup', userController.signUpPage)
 
