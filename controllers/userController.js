@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const Comment = db.Comment
+const Restaurant = db.Restaurant
 const fs = require('fs')
 
 const userController = {
@@ -44,16 +46,29 @@ const userController = {
 
     if (req.user.id !== Number(req.params.id)) {
       return User.findByPk(req.user.id).then((user) => {
-        User.findByPk(req.params.id).then((u) => {
+        User.findByPk(req.params.id, {
+          include: [
+            Comment,
+            { model: Comment, include: [Restaurant] }
+          ]
+        }).then((u) => {
           const img = u.image
           const check = true
-          return res.render('getUser', { user: user.toJSON(), u: u.toJSON(), img: img, check: check })
+          const commentTimes = u.Comments.length
+
+          return res.render('getUser', { user: user.toJSON(), u: u.toJSON(), img: img, check: check, commentTimes: commentTimes })
         })
       })
     } else {
-      return User.findByPk(req.params.id).then((user) => {
+      return User.findByPk(req.params.id, {
+        include: [
+          Comment,
+          { model: Comment, include: [Restaurant] }
+        ]
+      }).then((user) => {
         const img = user.image
-        return res.render('getUser', { user: user.toJSON(), img: img })
+        const commentTimes = user.Comments.length
+        return res.render('getUser', { user: user.toJSON(), img: img, commentTimes: commentTimes })
       })
     }
   },
