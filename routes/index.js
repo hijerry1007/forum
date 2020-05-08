@@ -34,7 +34,11 @@ module.exports = (app, passport) => {
   // user to post comment
   app.post('/comments', authenticated, commentController.postComment)
   // user to get profile
-  app.get('/users/:id', authenticated, userController.getProfile)
+  app.get('/users/:id', authenticated, userController.getUser)
+  // user to get editProfile
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+  //user to put profile
+  app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
   //admin to get users
   app.get('/admin/users', authenticatedAdmin, adminController.getUserList)

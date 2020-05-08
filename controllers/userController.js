@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const fs = require('fs')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -39,15 +40,67 @@ const userController = {
     return res.redirect('/restaurants')
   },
 
-  getProfile: (req, res) => {
-    return User.findByPk(req.params.id).then((user) => {
-      res.render('profile', { user: user.toJSON() })
-    })
+  getUser: (req, res) => {
 
+    if (req.user.id !== Number(req.params.id)) {
+      console.log(1)
+      return User.findByPk(req.user.id).then((user) => {
+        User.findByPk(req.params.id).then((u) => {
+
+          const img = u.image
+          return res.render('getUser', { user: user.toJSON(), u: u.toJSON(), img: img })
+        })
+      })
+    } else {
+      console.log(2)
+      return User.findByPk(req.params.id).then((user) => {
+        const img = user.image
+        const check = true
+        return res.render('getUser', { user: user.toJSON(), img: img, check: check })
+      })
+    }
   },
 
-  editProfile: (req, res) => {
+  editUser: (req, res) => {
+    return User.findByPk(req.params.id).then((user) => {
+      const img = user.image
+      res.render('editUser', { user: user.toJSON(), img: img })
+    })
+  },
 
+  putUser: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_messages', "name is required!")
+      return res.redirect('back')
+    }
+
+    const { file } = req
+    if (file) {
+      fs.readFile(file.path, (err, data) => {
+        if (err) console.log('Error:', err)
+        fs.writeFile(`upload/${file.originalname}`, data, () => {
+          return User.findByPk(req.params.id).then((user) => {
+            user.update({
+              name: req.body.name,
+              image: file ? `/upload/${file.originalname}` : null
+            }).then((user) => {
+              req.flash('success_messages', 'profile was successfully updated!')
+              return res.redirect(`/users/${user.id}`)
+            })
+          })
+        })
+      })
+    } else {
+      return User.findByPk(req.params.id).then((user) => {
+        user.update({
+          name: req.body.name,
+          image: user.image
+        }).then((user) => {
+          req.flash('success_messages', 'profile was successfully updated!')
+          return res.redirect(`/users/${user.id}`)
+        })
+      })
+    }
   },
 
   logout: (req, res) => {
