@@ -38,6 +38,18 @@ const userController = {
     req.flash('success_messages', '成功登入!')
     return res.redirect('/restaurants')
   },
+
+  getProfile: (req, res) => {
+    return User.findByPk(req.params.id).then((user) => {
+      res.render('profile', { user: user.toJSON() })
+    })
+
+  },
+
+  editProfile: (req, res) => {
+
+  },
+
   logout: (req, res) => {
     req.flash('success_messages', '登出成功!')
     req.logout()
