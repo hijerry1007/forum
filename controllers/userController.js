@@ -43,20 +43,17 @@ const userController = {
   getUser: (req, res) => {
 
     if (req.user.id !== Number(req.params.id)) {
-      console.log(1)
       return User.findByPk(req.user.id).then((user) => {
         User.findByPk(req.params.id).then((u) => {
-
           const img = u.image
-          return res.render('getUser', { user: user.toJSON(), u: u.toJSON(), img: img })
+          const check = true
+          return res.render('getUser', { user: user.toJSON(), u: u.toJSON(), img: img, check: check })
         })
       })
     } else {
-      console.log(2)
       return User.findByPk(req.params.id).then((user) => {
         const img = user.image
-        const check = true
-        return res.render('getUser', { user: user.toJSON(), img: img, check: check })
+        return res.render('getUser', { user: user.toJSON(), img: img })
       })
     }
   },
