@@ -33,6 +33,8 @@ module.exports = (app, passport) => {
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
   // user get one rest
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
+  //user get rest dashboard
+  app.get('/restaurants/dashboard/:id', authenticated, restController.getDashBoard)
   // user to post comment
   app.post('/comments', authenticated, commentController.postComment)
   // user to get profile
