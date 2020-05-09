@@ -48,6 +48,10 @@ module.exports = (app, passport) => {
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
 
+  //user to like/unlike
+  app.post('/like/:restaurantId', authenticated, userController.addLike)
+  app.delete('/like/:restaurantId', authenticated, userController.removeLike)
+
   //admin to get users
   app.get('/admin/users', authenticatedAdmin, adminController.getUserList)
   //admin to edit users
