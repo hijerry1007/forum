@@ -46,6 +46,10 @@ module.exports = (app, passport) => {
   //user to put profile
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
+  //user to add follow
+  app.post('/following/:userId', authenticated, userController.addFollowing)
+  app.delete('/following/:userId', authenticated, userController.removeFollowing)
+
   //user to add favorite
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
