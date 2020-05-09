@@ -176,6 +176,7 @@ const userController = {
         { model: User, as: 'Followers' }
       ]
     }).then(users => {
+
       users = users.map(user => ({
         ...user.dataValues,
         FollowerCount: user.Followers.length,
@@ -183,6 +184,7 @@ const userController = {
       }))
 
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
+
       return res.render('topUser', { users: users })
     })
   },

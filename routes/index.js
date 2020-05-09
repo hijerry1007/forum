@@ -31,6 +31,8 @@ module.exports = (app, passport) => {
   app.get('/restaurants', authenticated, restController.getRestaurants)
   //get feeds
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
+  //user to getTopRestaurant
+  app.get('/restaurants/top', authenticated, restController.getTopRestaurant)
   // user get one rest
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   //user get rest dashboard
