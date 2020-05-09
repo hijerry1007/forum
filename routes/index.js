@@ -37,6 +37,8 @@ module.exports = (app, passport) => {
   app.get('/restaurants/dashboard/:id', authenticated, restController.getDashBoard)
   // user to post comment
   app.post('/comments', authenticated, commentController.postComment)
+  // topUser
+  app.get('/users/top', authenticated, userController.getTopUser)
   // user to get profile
   app.get('/users/:id', authenticated, userController.getUser)
   // user to get editProfile
