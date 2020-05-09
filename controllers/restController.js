@@ -53,8 +53,12 @@ let restController = {
         { model: Comment, include: [User] }
       ]
     }).then(restaurant => {
-      return res.render('restaurant', {
-        restaurant: restaurant.toJSON()
+      restaurant.update({
+        viewCounts: restaurant.viewCounts + 1
+      }).then((restaurant) => {
+        return res.render('restaurant', {
+          restaurant: restaurant.toJSON()
+        })
       })
     })
   },
@@ -86,6 +90,7 @@ let restController = {
         Comment
       ]
     }).then(restaurant => {
+
       const commentTimes = restaurant.Comments.length
       res.render('dashboard', { restaurant: restaurant.toJSON(), commentTimes: commentTimes })
     })
