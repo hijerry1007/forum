@@ -1,4 +1,3 @@
-{{#if check}}
 <div class="card mb-3">
   <div class="row no-gutters">
     <div class="col-md-2">
@@ -6,60 +5,81 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h4 class="card-title">{{u.name}}</h4>
-        <p class="card-text">{{u.email}}</p>
-        <p class="card-text">{{commentTimes}}已評論餐廳</p>
-        <a class="btn btn-primary stretched-link" href="/restaurants">回餐廳首頁</a>
+        <h4 class="card-title">{{profile.name}}</h4>
+        <p class="card-text">{{profile.email}}</p>
+        <p class="card-text">{{profile.Comments.length}}已評論餐廳</p>
+        <p class="card-text">{{profile.FavoritedRestaurants.length}}收藏過的餐廳</p>
+        <p class="card-text">{{profile.Followings.length}}followings(追蹤者)</p>
+        <p class="card-text">{{profile.Followers.length}}followers(追隨者)</p>
         {{!-- user introduction <p class="card-text"></p> --}}
         {{!-- user update <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> --}}
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <h5 class="card-header">{{commentTimes}}已評論餐廳</h5>
-  <div class="card-body">
-    <div class="row">
-      {{#each u.Comments}}
-      <div class="col-md-1">
-        <a href="/restaurants/{{this.Restaurant.id}}"><img src="{{this.Restaurant.image}}" class="card-img" alt=""></a>
-      </div>
-      {{/each}}
-    </div>
-  </div>
-</div>
-{{else}}
-<div class="card mb-3">
-  <div class="row no-gutters">
-    <div class="col-md-2">
-      <img src="{{img}}" class="card-img" alt="">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h4 class="card-title">{{user.name}}</h4>
-        <p class="card-text">{{user.email}}</p>
-        <p class="card-text">{{commentTimes}}已評論餐廳</p>
-        {{!-- user introduction <p class="card-text"></p> --}}
-        {{!-- user update <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> --}}
+        {{#if isOwner}}
         <a class="btn btn-primary stretched-link" href="/users/{{user.id}}/edit">Edit profile</a>
+        {{/if}}
         <a class="btn btn-primary stretched-link" href="/restaurants">回餐廳首頁</a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="card">
-  <h5 class="card-header">{{commentTimes}}已評論餐廳</h5>
-  <div class="card-body">
-    <div class="row">
-      {{#each user.Comments}}
-      <div class="col-md-1">
-        <a href="/restaurants/{{this.Restaurant.id}}"><img src="{{this.Restaurant.image}}" class="card-img" alt=""></a>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <h5 class="card-header">{{profile.Followings.length}}followings(追蹤者)</h5>
+      <div class="card-body">
+        <div class="row">
+          {{#each profile.Followings}}
+          <div class="col-md-2">
+            <a href="/users/{{this.id}}"><img src="{{this.image}}" class="card-img" alt=""></a>
+          </div>
+          {{/each}}
+        </div>
       </div>
-      {{/each}}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <h5 class="card-header">{{filterData.length}}已評論餐廳</h5>
+      <div class="card-body">
+        <div class="row">
+          {{#each filterData}}
+          <div class="col-md-2">
+            <a href="/restaurants/{{this.id}}"><img src="{{this.image}}" class="card-img" alt=""></a>
+          </div>
+          {{/each}}
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-{{/if}}
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <h5 class="card-header">{{profile.Followers.length}}followers(追隨者)</h5>
+      <div class="card-body">
+        <div class="row">
+          {{#each profile.Followers}}
+          <div class="col-md-2">
+            <a href="/users/{{this.id}}"><img src="{{this.image}}" class="card-img" alt=""></a>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <h5 class="card-header">{{profile.FavoritedRestaurants.length}}收藏過的餐廳</h5>
+      <div class="card-body">
+        <div class="row">
+          {{#each profile.FavoritedRestaurants}}
+          <div class="col-md-2">
+            <a href="/restaurants/{{this.id}}"><img src="{{this.image}}" class="card-img" alt=""></a>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
