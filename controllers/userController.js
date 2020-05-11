@@ -8,6 +8,9 @@ const Like = db.Like
 const Followship = db.Followship
 const fs = require('fs')
 
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = '17049fd437d751f'
+
 const userController = {
   signUpPage: (req, res) => {
     return res.render('signup')
@@ -96,19 +99,21 @@ const userController = {
 
     const { file } = req
     if (file) {
-      fs.readFile(file.path, (err, data) => {
+      imgur.setClientID(IMGUR_CLIENT_ID);
+
+      imgur.upload(file.path, (err, img) => {
         if (err) console.log('Error:', err)
-        fs.writeFile(`upload/${file.originalname}`, data, () => {
-          return User.findByPk(req.params.id).then((user) => {
-            user.update({
-              name: req.body.name,
-              image: file ? `/upload/${file.originalname}` : null
-            }).then((user) => {
-              req.flash('success_messages', 'profile was successfully updated!')
-              return res.redirect(`/users/${user.id}`)
-            })
+
+        return User.findByPk(req.params.id).then((user) => {
+          user.update({
+            name: req.body.name,
+            image: file ? img.data.link : user.image
+          }).then((user) => {
+            req.flash('success_messages', 'profile was successfully updated!')
+            return res.redirect(`/users/${user.id}`)
           })
         })
+
       })
     } else {
       return User.findByPk(req.params.id).then((user) => {
