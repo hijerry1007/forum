@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const db = require('../../models')
 const User = db.User
+const userServices = require('../../services/userServices')
 
 //JWT
 const jwt = require('jsonwebtoken')
@@ -48,8 +49,72 @@ let userController = {
         }
       })
     }
+  },
 
-  }
+  getTopUser: (req, res) => {
+    userServices.getTopUser(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  getUser: (req, res) => {
+    userServices.getUser(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  editUser: (req, res) => {
+    userServices.editUser(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  putUser: (req, res) => {
+    userServices.putUser(req, res, (data) => {
+      console.log(data)
+      if (data['status'] === 'error') {
+        return res.json({ status: 'error', message: data['message'] })
+      }
+      return res.json(data)
+    })
+  },
+
+  addFollowing: (req, res) => {
+    userServices.addFollowing(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  removeFollowing: (req, res) => {
+    userServices.removeFollowing(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  addFavorite: (req, res) => {
+    userServices.addFavorite(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  removeFavorite: (req, res) => {
+    userServices.removeFavorite(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  addLike: (req, res) => {
+    userServices.addLike(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  removeLike: (req, res) => {
+    userServices.removeLike(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
 }
 
 module.exports = userController

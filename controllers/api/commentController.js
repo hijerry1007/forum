@@ -1,19 +1,19 @@
-const db = require('../models')
+const db = require('../../models')
 const Comment = db.Comment
-const commentServices = require('../services/commentServices')
+const commentServices = require('../../services/commentServices')
 
-let commentController = {
+const commentController = {
   postComment: (req, res) => {
     commentServices.postComment(req, res, (data) => {
-      res.redirect(`/restaurants/${req.body.restaurantId}`)
+      return res.json(data)
     })
   },
-
   deleteComment: (req, res) => {
     commentServices.deleteComment(req, res, (data) => {
-      res.redirect(`/restaurants/${data['comment'].RestaurantId}`)
+      return res.json(data)
     })
   }
+
 }
 
 module.exports = commentController

@@ -25,50 +25,28 @@ const adminController = {
 
   //get 使用者清單
   getUserList: (req, res) => {
-    return User.findAll({ raw: true, nest: true }).then(users => {
-      return res.render('admin/users', { users: users })
+    adminService.getUserList(req, res, (data) => {
+      return res.render('admin/users', data)
     })
   },
   //修改使用者清單
   editUserList: (req, res) => {
+    adminService.editUserList(req, res, (data) => {
+      if (data['message'] === "your adminitration will be no longer existing!") {
+        req.flash('success_messages', data['message'])
+        return res.redirect('/signin')
+      }
 
-    return User.findByPk(req.params.id).then(user => {
-
-      user.update({
-        isAdmin: !user.isAdmin
-      })
-        .then((user) => {
-          if (req.user.id === user.id) {
-            if (!user.isAdmin) {
-              req.flash('success_messages', "your adminitration will be no longer existing!")
-              return res.redirect('/signin')
-            }
-            else {
-              req.flash('success_messages', 'user was successfully updated')
-              return res.redirect('/admin/users')
-            }
-          } else {
-            console.log(req.user)
-            req.flash('success_messages', 'user was successfully updated')
-            return res.redirect('/admin/users')
-          }
-        })
-
+      req.flash('success_messages', data['message'])
+      return res.redirect('/admin/users')
     })
-
   },
 
   //get 表單 新增
   createRestaurant: (req, res) => {
-    Category.findAll({
-      raw: true,
-      nest: true
-    }).then(categories => {
-      return res.render('admin/create', {
-        categories: categories
-      })
+    adminService.createRestaurant(req, res, (data) => {
+      return res.render('admin/create', data)
     })
-
   },
 
   //新增
@@ -86,16 +64,8 @@ const adminController = {
 
   //get 編輯
   editRestaurant: (req, res) => {
-    Category.findAll({
-      raw: true,
-      nest: true
-    }).then(categories => {
-      return Restaurant.findByPk(req.params.id).then(restaurant => {
-        return res.render('admin/create', {
-          categories: categories,
-          restaurant: restaurant.toJSON()
-        })
-      })
+    adminService.editRestaurant(req, res, (data) => {
+      return res.render('admin/create', data)
     })
   },
 

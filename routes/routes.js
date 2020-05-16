@@ -74,12 +74,15 @@ router.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaura
 
 //admin create page
 router.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
+
 //admin create action
 router.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
 //admin get one restaurant
 router.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant)
+
 //admin edit page
 router.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
+
 //admin edit action
 router.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
 //admin delete action
@@ -89,6 +92,7 @@ router.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.dele
 router.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
 //admin to post categories
 router.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)
+
 //admin to put categories
 router.get('/admin/categories/:id', authenticatedAdmin, categoryController.getCategories)
 
