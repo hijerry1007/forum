@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const db = require('./models') //引入資料庫
 const handlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
