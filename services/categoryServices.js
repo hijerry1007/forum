@@ -53,6 +53,17 @@ const categoryService = {
         })
     }
   },
+
+  //刪除類別
+  deleteCategory: (req, res, callback) => {
+    return Category.findByPk(req.params.id)
+      .then((category) => {
+        category.destroy()
+          .then((category) => {
+            callback({ category })
+          })
+      })
+  }
 }
 
 module.exports = categoryService
