@@ -34,5 +34,7 @@ router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, admin
 
 //登入機制
 router.post('/signin', userController.signIn)
+//註冊
+router.post('/signup', userController.signUp)
 
 module.exports = router
